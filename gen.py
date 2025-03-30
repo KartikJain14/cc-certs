@@ -6,6 +6,7 @@ def format_name(name):
     Formats the name: if the full name is very long,
     use only the first name and the initial of the last name.
     """
+    name = ' '.join([word.capitalize() for word in name.split()])
     if len(name) > 15:
         parts = name.split()
         if len(parts) > 1:
@@ -13,7 +14,7 @@ def format_name(name):
         return parts[0]
     return name
 
-def generate_certificate(name, level):
+def generate_certificate(name, level, round):
     """
     Generates a certificate by placing the formatted name into the
     certificate template. Ensures the name is correctly centered inside
@@ -22,13 +23,17 @@ def generate_certificate(name, level):
     name = format_name(name)
     
     # Choose the template based on level
-    if level.lower() == 'elementary':
-        template_path = "CERTIFICATE_ELEMENTARY.png"
+    if level.lower() == 'elementary' and round == 1:
+        template_path = "CERTIFICATE_ELEMENTARY_R1.png"
+    elif level.lower() == 'elementary' and round == 2:
+        template_path = "CERTIFICATE_ELEMENTARY_R2.png"
+    elif level.lower() == 'advanced' and round == 1:
+        template_path = "CERTIFICATE_ADVANCED_R1.png"
     else:
-        template_path = "CERTIFICATE_ADVANCED.png"
+        template_path = "CERTIFICATE_ADVANCED_R2.png"
     
     font_path = "SFPRODISPLAYHEAVYITALIC.OTF"
-    output_path = f"out/{name} - {level}.png"
+    output_path = f"out/{name} - {level} - Round {round}.png"
     
     # Load the certificate image
     image = Image.open(template_path)
@@ -69,4 +74,4 @@ def generate_certificate(name, level):
 
 # Example usage:
 if __name__ == '__main__':
-    generate_certificate("Kartik Jain", "Advanced")
+    generate_certificate("Kartik Jain", "Advanced", 2)

@@ -1,1 +1,9 @@
 venv
+out/*
+*.zip
+*.txt
+__pycache__
+adv-r1
+adv-r2
+elem-r1
+elem-r2
